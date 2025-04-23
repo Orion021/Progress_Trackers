@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flutter</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h2 {
+      background: #4b6cb7;
+      background: linear-gradient(to right, #4b6cb7, #182848);
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h3 {
+      margin-top: 20px;
+      color: #2c3e50;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .progress-selector {
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .cell {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      cursor: pointer;
+      background-color: white;
+      transition: background-color 0.3s;
+    }
+    .studied {
+      background-color: #ffe6cc !important;
+    }
+    .practiced {
+      background-color: #cceeff !important;
+    }
+    .create {
+      background-color: #ccffcc !important;
+    }
+    .clear-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flutter Learning Progress Tracker</h1>
+
+  <div id="topics-container"></div>
+
+  <script>
+    const sections = {
+        "Dart Programming Basics": [
+            "Dart Syntax and Structure",
+            "Variables and Data Types",
+            "Operators",
+            "Control Flow (if, switch)",
+            "Loops (for, while)",
+            "Functions",
+            "Exception Handling",
+            "Lists and Maps",
+            "Null Safety",
+            "OOP: Classes and Objects",
+            "OOP: Inheritance and Polymorphism",
+            "Async, Await, and Futures",
+            "Streams"
+        ],
+        "Flutter Basics": [
+            "Installing Flutter & Setup",
+            "Understanding Widgets",
+            "Stateless vs Stateful Widgets",
+            "Hot Reload & Debugging",
+            "MaterialApp & Scaffold",
+            "Text and Image Widgets",
+            "Container and Padding",
+            "Column and Row",
+            "Icons and Buttons",
+            "AppBar and Drawer",
+            "Theme and Styling"
+        ],
+        "Layout and Structure": [
+            "BoxConstraints",
+            "Expanded and Flexible",
+            "MediaQuery & LayoutBuilder",
+            "ListView and GridView",
+            "Stack and Positioned",
+            "Wrap and Align",
+            "SizedBox & Spacer"
+        ],
+        "Navigation and Routing": [
+            "Navigator.push / pop",
+            "Named Routes",
+            "Passing Data Between Screens",
+            "Using `onGenerateRoute`",
+            "Bottom Navigation Bar",
+            "TabBar and TabBarView"
+        ],
+        "State Management": [
+            "setState",
+            "InheritedWidget",
+            "Provider",
+            "Riverpod",
+            "Bloc/Cubit (flutter_bloc)",
+            "GetX",
+            "Redux (Advanced)"
+        ],
+        "Forms and User Input": [
+            "TextField and TextEditingController",
+            "Form and FormField",
+            "Validation and Error Handling",
+            "Checkbox, Radio, Switch",
+            "Dropdown and Sliders",
+            "Date & Time Pickers"
+        ],
+        "Networking and Backend": [
+            "HTTP Package",
+            "REST APIs Integration",
+            "Handling JSON",
+            "Dio Package",
+            "Connectivity Package",
+            "Error Handling in API Calls"
+        ],
+        "Local Storage & Databases": [
+            "Shared Preferences",
+            "SQLite with sqflite",
+            "Hive",
+            "ObjectBox",
+            "Reading/Writing Local Files"
+        ],
+        "Firebase Integration": [
+            "Firebase Setup",
+            "Authentication",
+            "Firestore",
+            "Realtime Database",
+            "Firebase Storage",
+            "Push Notifications",
+            "Firebase Analytics"
+        ],
+        "Device Integration": [
+            "Camera and Gallery",
+            "File Picker",
+            "Location Services",
+            "Sensors",
+            "Battery, Network Info",
+            "QR Code Scanner"
+        ],
+        "UI Enhancements": [
+            "Custom Widgets",
+            "Themes and Dark Mode",
+            "Animations (Tween, AnimatedContainer)",
+            "Hero Animations",
+            "Custom Paint & Canvas",
+            "ClipPath and Custom Shapes",
+            "Responsive Design"
+        ],
+        "Testing and Debugging": [
+            "Unit Testing",
+            "Widget Testing",
+            "Integration Testing",
+            "Debug Console",
+            "Flutter DevTools"
+        ],
+        "Deployment": [
+            "Building APK / IPA",
+            "Play Store Deployment",
+            "App Store Deployment",
+            "CI/CD for Flutter (Codemagic, GitHub Actions)",
+            "App Signing and Obfuscation"
+        ],
+        "Advanced Topics": [
+            "Isolates and Compute",
+            "Platform Channels (Android/iOS)",
+            "Code Splitting",
+            "Custom Render Objects",
+            "Flutter Web",
+            "Flutter Desktop",
+            "Modular Architecture"
+        ],
+        "Mini Projects / Practice Apps": [
+            "Profile Card App",
+            "Counter App",
+            "Calculator",
+            "Stopwatch",
+            "To-do App with CRUD",
+            "Notes App (SQLite)",
+            "Wallpaper App (API)",
+            "Weather App",
+            "Music Player (File Picker)",
+            "Login/Register with Firebase",
+            "Chat App",
+            "E-commerce UI",
+            "Quiz App"
+        ]
+    };
+
+    const container = document.getElementById('topics-container');
+
+    Object.entries(sections).forEach(([section, topics]) => {
+      const sectionEl = document.createElement('div');
+      sectionEl.innerHTML = `<h2>${section} <button class="clear-button" onclick="clearSection('${section}')">Clear All</button></h2>`;
+
+      const listEl = document.createElement('ul');
+
+      topics.forEach((topic, index) => {
+        const topicId = `${section}-${index}`;
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${topic}
+          <div class="progress-selector">
+            <div class="cell" onclick="setProgress('${topicId}', 1)">Studied</div>
+            <div class="cell" onclick="setProgress('${topicId}', 2)">Practiced</div>
+            <div class="cell" onclick="setProgress('${topicId}', 3)">Demonstrate</div>
+          </div>`;
+        listEl.appendChild(li);
+      });
+
+      sectionEl.appendChild(listEl);
+      container.appendChild(sectionEl);
+    });
+
+    function setProgress(id, level) {
+      const cells = document.querySelectorAll(`[onclick*="setProgress('${id}'"]`);
+      
+      // Ensure cells exist and are being targeted correctly
+      if (cells.length < 3) {
+        console.error("Couldn't find the cells for the topic ID:", id);
+        return;
+      }
+
+      // Remove previous progress classes
+      cells.forEach(cell => {
+        cell.classList.remove('studied', 'practiced', 'create');
+      });
+
+      // Add appropriate classes based on the level
+      if (level >= 1) cells[0].classList.add('studied');
+      if (level >= 2) cells[1].classList.add('practiced');
+      if (level >= 3) cells[2].classList.add('create');
+
+      // Save progress to localStorage
+      localStorage.setItem(id, level);
+    }
+
+    function restoreProgress(id) {
+      const savedProgress = localStorage.getItem(id);
+      if (savedProgress) {
+        setProgress(id, parseInt(savedProgress));
+      }
+    }
+
+    function clearSection(section) {
+      const topics = sections[section];
+      topics.forEach((_, index) => {
+        const topicId = `${section}-${index}`;
+        localStorage.removeItem(topicId);
+        const cells = document.querySelectorAll(`[onclick*="setProgress('${topicId}'"]`);
+        cells.forEach(cell => {
+          cell.classList.remove('studied', 'practiced', 'create');
+        });
+      });
+    }
+
+    // Now restore progress after all topics are loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      const allTopicIds = Object.entries(sections).flatMap(([section, topics]) => 
+        topics.map((_, index) => `${section}-${index}`)
+      );
+      allTopicIds.forEach(restoreProgress);
+    });
+  </script>
+</body>
+</html>
