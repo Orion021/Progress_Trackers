@@ -84,155 +84,103 @@
 
   <script>
     const sections = {
-        "Networking Fundamentals": [
-            "What is Networking?",
-            "Types of Networks (LAN, MAN, WAN, PAN, WLAN, CAN, SAN)",
-            "Network Topologies (Star, Bus, Ring, Mesh, Hybrid)",
-            "Network Devices (Router, Switch, Hub, Bridge, Modem, Access Point, Gateway)",
-            "Network Interface Card (NIC)",
-            "OSI Model (7 Layers)",
-            "TCP/IP Model",
-            "IPv4 Addressing and Classes",
-            "IPv6 Addressing and Notation",
-            "Subnetting and Supernetting",
-            "CIDR (Classless Inter-Domain Routing)",
-            "MAC Addressing",
-            "Public vs Private IP Addresses",
-            "NAT & PAT (Network Address Translation & Port Address Translation)",
-            "DHCP (Dynamic Host Configuration Protocol)",
-            "DNS (Domain Name System)",
-            "ARP & RARP (Address Resolution Protocols)",
-            "MTU (Maximum Transmission Unit)",
-            "VLAN (Virtual LAN)",
-            "MPLS (Multiprotocol Label Switching)",
-            "Ports and Port Numbers (Well-known Ports)"
-        ],
-        "Protocols": [
-            "TCP vs UDP",
-            "IP (Internet Protocol)",
-            "ICMP (Ping, Traceroute)",
-            "HTTP, HTTPS (Hypertext Transfer Protocol)",
-            "FTP, FTPS, SFTP",
-            "SSH (Secure Shell)",
-            "Telnet",
-            "SMTP, POP3, IMAP (Email Protocols)",
-            "SNMP (Simple Network Management Protocol)",
-            "TLS/SSL (Encryption Protocols)",
-            "WebSockets",
-            "NTP (Network Time Protocol)",
-            "BGP (Border Gateway Protocol)",
-            "IGRP, OSPF, EIGRP (Routing Protocols)"
-        ],
-        "Networking Tools and Commands": [
-            "ping",
-            "traceroute / tracert",
-            "ipconfig / ifconfig",
-            "netstat",
-            "nslookup / dig",
-            "nmap",
-            "tcpdump",
-            "Wireshark",
-            "netcat (nc)",
-            "curl & wget",
-            "telnet command",
-            "whois",
-            "arp command",
-            "route command",
-            "hostname and host"
-        ],
-        "Sockets Programming in Python": [
-            "Creating TCP Sockets",
-            "Creating UDP Sockets",
-            "Binding and Listening",
-            "Accepting Connections",
-            "Sending and Receiving Data",
-            "Closing Connections",
-            "Multithreaded Socket Servers",
-            "Broadcast and Multicast Sockets",
-            "Non-blocking and Asynchronous Sockets",
-            "Using `select`, `poll`, and `epoll`",
-            "Secure Sockets with `ssl` Module"
-        ],
-        "Network Security Concepts": [
-            "Firewall Configuration (Software & Hardware)",
-            "VPN (Virtual Private Network)",
-            "Proxy Servers (Forward/Reverse Proxy)",
-            "DMZ (Demilitarized Zone)",
-            "Port Forwarding",
-            "WPA2/WPA3 Wireless Security",
-            "Encryption and Decryption",
-            "Authentication, Authorization, Accounting (AAA)",
-            "IDS/IPS (Intrusion Detection/Prevention Systems)",
-            "DDoS Protection & Mitigation",
-            "Access Control Lists (ACL)",
-            "Zero Trust Networking",
-            "MAC Filtering",
-            "IP Spoofing, ARP Poisoning, Packet Sniffing"
-        ],
-        "Python Networking Libraries": [
-            "socket",
-            "socketserver",
-            "asyncio for networking",
-            "requests",
-            "http.client",
-            "urllib",
-            "ftplib",
-            "paramiko (SSH)",
-            "scapy (Packet crafting and sniffing)",
-            "pyshark (Wireshark wrapper)",
-            "dnspython (DNS querying)",
-            "twisted (Event-driven networking)",
-            "aiohttp",
-            "pyftpdlib (Custom FTP Server)",
-            "mitmproxy (Intercepting HTTP/S traffic)"
-        ],
-        "Network Automation & DevOps Tools": [
-            "Ansible for Network Automation",
-            "Python Netmiko, NAPALM, PyATS",
-            "REST APIs for network devices",
-            "Postman for API Testing",
-            "Cisco Packet Tracer / GNS3 / EVE-NG",
-            "Using YAML & JSON in configs",
-            "Netconf / RESTCONF protocols",
-            "Network Configuration Backup Scripts"
-        ],
-        "Practical Networking Projects": [
-            "Chat Application (TCP/UDP)",
-            "File Transfer App",
-            "Simple Web Server",
-            "Port Scanner",
-            "Network Packet Sniffer",
-            "IP Scanner / Subnet Scanner",
-            "Socket-based Remote Shell",
-            "HTTP Client with requests",
-            "Ping Monitoring System",
-            "Multiplayer Game Networking",
-            "DNS Resolver",
-            "Custom VPN using Sockets and Encryption"
-        ],
-        "Cloud & Network Integration": [
-            "Cloud Networking Basics (AWS, Azure, GCP)",
-            "VPC, Subnets, and Routing Tables",
-            "Security Groups and NACLs",
-            "Elastic IPs, NAT Gateways",
-            "Cloud Load Balancers",
-            "PrivateLink, Direct Connect",
-            "SDN (Software Defined Networking)",
-            "Edge Networking and CDNs",
-            "Serverless Networking Challenges"
-        ],
-        "Troubleshooting and Diagnostics": [
-            "Latency, Jitter, Packet Loss",
-            "Routing Loops and Blackholes",
-            "Throughput vs Bandwidth",
-            "Wi-Fi Interference",
-            "ISP Troubleshooting",
-            "DNS Resolution Failures",
-            "Firewall or Port Blocking Issues",
-            "Analyzing Logs and Packet Captures",
-            "Loopback and Localhost Testing",
-            "Trace Packet Path with tools"
-        ]
+      "Introduction to Networking": [
+        "What is Networking?",
+        "Types of Networks (LAN, MAN, WAN, PAN)",
+        "Network Topologies (Bus, Star, Ring, Mesh, Hybrid)",
+        "Networking Devices (Router, Switch, Hub, Bridge, Modem, Access Point)",
+        "OSI Model (7 Layers) — Functions & Protocols",
+        "TCP/IP Model — Comparison with OSI"
+      ],
+      "Network Hardware & Transmission Media": [
+        "Wired vs Wireless Transmission",
+        "Twisted Pair, Coaxial, Fiber Optic Cables",
+        "Ethernet Standards (10BaseT, 100BaseT, Gigabit Ethernet)",
+        "Wireless Standards (Wi-Fi 802.11 a/b/g/n/ac/ax)",
+        "Bluetooth, NFC, RFID"
+      ],
+      "IP Addressing and Subnetting": [
+        "IPv4 Addressing (Classes A, B, C, D, E)",
+        "Private vs Public IPs",
+        "Static vs Dynamic IP",
+        "Subnetting (CIDR, Subnet Masks)",
+        "IPv6 Addressing",
+        "VLSM (Variable Length Subnet Masking)"
+      ],
+      "Protocols and Ports": [
+        "TCP vs UDP",
+        "HTTP/HTTPS",
+        "FTP, SFTP, TFTP",
+        "DHCP, DNS, ARP, ICMP",
+        "SNMP, NTP",
+        "Well-known Ports (0–1023)"
+      ],
+      "Routing and Switching": [
+        "MAC Address vs IP Address",
+        "ARP Table, Routing Table",
+        "Static Routing",
+        "Dynamic Routing Protocols (RIP, OSPF, EIGRP, BGP)",
+        "VLANs (Virtual LANs)",
+        "STP (Spanning Tree Protocol)",
+        "NAT (Network Address Translation), PAT"
+      ],
+      "Network Configuration and Tools": [
+        "IP Configuration (Linux/Windows/Mac)",
+        "ping",
+        "traceroute / tracert",
+        "ipconfig / ifconfig",
+        "netstat",
+        "nslookup, dig",
+        "telnet, curl, wget",
+        "Wireshark, tcpdump"
+      ],
+      "Wireless Networking": [
+        "Wi-Fi Standards (802.11 family)",
+        "Wireless Security (WEP, WPA, WPA2, WPA3)",
+        "Wireless Authentication Methods",
+        "SSID, Channels, Frequency Bands (2.4 GHz vs 5 GHz)"
+      ],
+      "Network Security Basics": [
+        "Firewalls (Software & Hardware)",
+        "DMZ (Demilitarized Zone)",
+        "VPN (Virtual Private Network)",
+        "IDS/IPS (Intrusion Detection/Prevention Systems)",
+        "Basic Cryptography for Networking (SSL/TLS)",
+        "Port Scanning (nmap), Vulnerability Scanning"
+      ],
+      "Network Services and Servers": [
+        "DNS Server Configuration",
+        "DHCP Server Setup",
+        "Web Server (Apache/Nginx)",
+        "FTP/SFTP Server",
+        "Mail Server Basics (SMTP, IMAP, POP3)",
+        "Proxy Servers, Reverse Proxy"
+      ],
+      "Advanced Networking Concepts": [
+        "QoS (Quality of Service)",
+        "Load Balancing",
+        "MPLS (Multiprotocol Label Switching)",
+        "SDN (Software Defined Networking)",
+        "Network Virtualization (VLAN, VXLAN, GRE Tunnels)",
+        "Cloud Networking (VPC, Subnets, Routing in AWS/Azure)"
+      ],
+      "Practical and Simulation Tools": [
+        "Cisco Packet Tracer",
+        "GNS3 / EVE-NG",
+        "Wireshark",
+        "NetSim (Boson)",
+        "VMware Workstation / VirtualBox (for network labs)"
+      ],
+      "Real-World Projects & Labs": [
+        "Build and simulate a small office/home office (SOHO) network",
+        "Configure DHCP & DNS services on a server",
+        "Create and manage VLANs using a managed switch",
+        "Design and implement subnetting for a given organization",
+        "Configure static and dynamic routing between routers",
+        "Capture and analyze traffic using Wireshark",
+        "Secure a wireless network using WPA2/WPA3",
+        "Set up VPN between two locations"
+      ]
     };
 
     const container = document.getElementById('topics-container');

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Networking</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h2 {
+      background: #4b6cb7;
+      background: linear-gradient(to right, #4b6cb7, #182848);
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h3 {
+      margin-top: 20px;
+      color: #2c3e50;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .progress-selector {
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .cell {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      cursor: pointer;
+      background-color: white;
+      transition: background-color 0.3s;
+    }
+    .studied {
+      background-color: #ffe6cc !important;
+    }
+    .practiced {
+      background-color: #cceeff !important;
+    }
+    .create {
+      background-color: #ccffcc !important;
+    }
+    .clear-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Embedded C Learning Progress Tracker</h1>
+
+  <div id="topics-container"></div>
+
+  <script>
+    const sections = {
+        "Introduction to Embedded Systems": [
+            "What is Embedded System?",
+            "Embedded System Architecture",
+            "Types of Embedded Systems (Microcontroller-based, FPGA-based, etc.)",
+            "Microcontroller vs Microprocessor",
+            "Characteristics of Embedded Systems",
+            "Applications of Embedded Systems"
+        ],
+        "Basic C Programming for Embedded Systems": [
+            "Introduction to C Language (Syntax, Data Types, Operators)",
+            "Control Structures (if-else, switch-case, loops)",
+            "Functions (Declaration, Definition, Parameters, Return Types)",
+            "Pointers and Arrays",
+            "Memory Management (Stack, Heap)",
+            "Data Structures in C (Structs, Linked Lists)",
+            "File Handling in C (for Embedded Systems)"
+        ],
+        "Embedded C Programming Basics": [
+            "Embedded C Language Overview",
+            "Compiling and Debugging Embedded C Code",
+            "Cross Compilation and Toolchains",
+            "Linker Scripts and Memory Mapping",
+            "Interrupts and Interrupt Service Routines (ISR)",
+            "Register-Level Programming",
+            "GPIO (General Purpose Input/Output) Control"
+        ],
+        "Microcontroller Architecture and Programming": [
+            "Microcontroller Basics (Architecture, Memory, I/O Ports)",
+            "ARM Cortex-M Series (ARMv7-M, ARMv8-M)",
+            "Microcontroller vs FPGA",
+            "Clock Systems and Timers",
+            "PWM (Pulse Width Modulation)",
+            "ADC (Analog to Digital Conversion), DAC (Digital to Analog Conversion)",
+            "UART, SPI, I2C Communication Protocols"
+        ],
+        "Embedded System Design Concepts": [
+            "Embedded System Design Flow",
+            "System Requirements Specification",
+            "Design Considerations for Embedded Systems",
+            "Real-Time Operating Systems (RTOS)",
+            "Task Scheduling, Synchronization, and Communication",
+            "Low Power Design Techniques",
+            "Power Management in Embedded Systems"
+        ],
+        "Memory Management in Embedded Systems": [
+            "Memory Types (RAM, ROM, Flash, EEPROM)",
+            "Memory Mapping and Segmentation",
+            "Static vs Dynamic Memory Allocation",
+            "Memory Leak and Stack Overflow Prevention",
+            "Optimizing Memory Usage for Embedded Systems"
+        ],
+        "Peripheral Interfacing in Embedded Systems": [
+            "Interfacing Sensors (Temperature, Pressure, etc.)",
+            "LCD and LED Display Interfacing",
+            "Keypad and Touchscreen Interfaces",
+            "Motor Driver Interfaces (DC Motors, Stepper Motors, Servo Motors)",
+            "Real-Time Clock (RTC) Module",
+            "USART, SPI, I2C Protocols for Peripheral Communication"
+        ],
+        "Embedded System Communication Protocols": [
+            "Serial Communication (UART)",
+            "I2C (Inter-Integrated Circuit)",
+            "SPI (Serial Peripheral Interface)",
+            "CAN Bus (Controller Area Network)",
+            "Ethernet and TCP/IP in Embedded Systems",
+            "Wireless Communication (Bluetooth, Zigbee, Wi-Fi, LoRa)"
+        ],
+        "Real-Time Operating Systems (RTOS)": [
+            "Introduction to RTOS",
+            "RTOS Architecture",
+            "Task Management (Scheduling, Preemption)",
+            "Task Synchronization (Mutex, Semaphore)",
+            "Inter-task Communication (Message Queues, Mailboxes)",
+            "Real-time Clock Management",
+            "Interrupt Handling in RTOS"
+        ],
+        "Embedded System Debugging and Testing": [
+            "Debugging Tools (JTAG, SWD, GDB)",
+            "Embedded System Simulation",
+            "Unit Testing in Embedded C",
+            "Hardware-in-the-loop (HIL) Testing",
+            "Software Profiling and Optimization",
+            "Fault Injection and Stress Testing"
+        ],
+        "Embedded System Development Tools": [
+            "IDE (Integrated Development Environment) for Embedded C (Keil, MPLAB, IAR Embedded Workbench)",
+            "Compilers and Linkers",
+            "Debuggers and Emulators",
+            "Hardware Debugging Tools (Oscilloscope, Logic Analyzer)",
+            "Software Version Control (Git) for Embedded Development"
+        ],
+        "Advanced Embedded C Concepts": [
+            "Direct Memory Access (DMA)",
+            "Interrupt Latency and Real-Time Constraints",
+            "Bootloaders and Firmware Upgrades",
+            "Power Optimization Techniques in Embedded Systems",
+            "Advanced Communication Protocols (USB, Ethernet, Modbus)",
+            "Security Considerations in Embedded Systems (Encryption, Authentication)"
+        ],
+        "Practical Embedded System Projects": [
+            "Blinking LED using GPIO",
+            "Interfacing Temperature Sensor with Microcontroller",
+            "LCD Display Control using Embedded C",
+            "PWM Control for Motor Speed Regulation",
+            "UART Communication for Data Transmission",
+            "I2C Communication for Sensor Interfacing",
+            "Build a Simple RTOS-based Scheduler",
+            "Design and Implement a Home Automation System",
+            "Wireless Communication System using Bluetooth/Wi-Fi"
+        ]
+    };
+
+    const container = document.getElementById('topics-container');
+
+    Object.entries(sections).forEach(([section, topics]) => {
+      const sectionEl = document.createElement('div');
+      sectionEl.innerHTML = `<h2>${section} <button class="clear-button" onclick="clearSection('${section}')">Clear All</button></h2>`;
+
+      const listEl = document.createElement('ul');
+
+      topics.forEach((topic, index) => {
+        const topicId = `${section}-${index}`;
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${topic}
+          <div class="progress-selector">
+            <div class="cell" onclick="setProgress('${topicId}', 1)">Studied</div>
+            <div class="cell" onclick="setProgress('${topicId}', 2)">Practiced</div>
+            <div class="cell" onclick="setProgress('${topicId}', 3)">Demonstrate</div>
+          </div>`;
+        listEl.appendChild(li);
+      });
+
+      sectionEl.appendChild(listEl);
+      container.appendChild(sectionEl);
+    });
+
+    function setProgress(id, level) {
+      const cells = document.querySelectorAll(`[onclick*="setProgress('${id}'"]`);
+      
+      // Ensure cells exist and are being targeted correctly
+      if (cells.length < 3) {
+        console.error("Couldn't find the cells for the topic ID:", id);
+        return;
+      }
+
+      // Remove previous progress classes
+      cells.forEach(cell => {
+        cell.classList.remove('studied', 'practiced', 'create');
+      });
+
+      // Add appropriate classes based on the level
+      if (level >= 1) cells[0].classList.add('studied');
+      if (level >= 2) cells[1].classList.add('practiced');
+      if (level >= 3) cells[2].classList.add('create');
+
+      // Save progress to localStorage
+      localStorage.setItem(id, level);
+    }
+
+    function restoreProgress(id) {
+      const savedProgress = localStorage.getItem(id);
+      if (savedProgress) {
+        setProgress(id, parseInt(savedProgress));
+      }
+    }
+
+    function clearSection(section) {
+      const topics = sections[section];
+      topics.forEach((_, index) => {
+        const topicId = `${section}-${index}`;
+        localStorage.removeItem(topicId);
+        const cells = document.querySelectorAll(`[onclick*="setProgress('${topicId}'"]`);
+        cells.forEach(cell => {
+          cell.classList.remove('studied', 'practiced', 'create');
+        });
+      });
+    }
+
+    // Now restore progress after all topics are loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      const allTopicIds = Object.entries(sections).flatMap(([section, topics]) => 
+        topics.map((_, index) => `${section}-${index}`)
+      );
+      allTopicIds.forEach(restoreProgress);
+    });
+  </script>
+</body>
+</html>
