@@ -10,11 +10,41 @@
       padding: 20px;
       background-color: #f0f4f8;
       color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
+
+    .dark-mode body {
+      background-color: #1e1e1e;
+      color: #ddd;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+    
+    .theme-toggle:hover {
+      background: linear-gradient(135deg, #3a539b, #1c2d5c);
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+
     h1 {
       text-align: center;
       margin-bottom: 40px;
     }
+
     h2 {
       background: #4b6cb7;
       background: linear-gradient(to right, #4b6cb7, #182848);
@@ -25,14 +55,17 @@
       justify-content: space-between;
       align-items: center;
     }
+
     h3 {
       margin-top: 20px;
       color: #2c3e50;
     }
+
     ul {
       list-style-type: none;
       padding: 0;
     }
+
     li {
       background: #fff;
       border: 1px solid #ddd;
@@ -44,29 +77,49 @@
       align-items: center;
       flex-wrap: wrap;
     }
+
+    .dark-mode li {
+      background: #2a2a2a;
+      border-color: #444;
+    }
+
     .progress-selector {
       display: flex;
       border: 1px solid #ccc;
       border-radius: 6px;
       overflow: hidden;
     }
+
     .cell {
       flex: 1;
       text-align: center;
       padding: 8px;
       cursor: pointer;
-      background-color: white;
-      transition: background-color 0.3s;
+      background-color: #ffffff;
+      color: #000;
+      transition: background-color 0.3s, color 0.3s;
     }
+
+    .dark-mode .cell {
+      background-color: #2e2e2e;
+      color: #fff;
+    }
+
     .studied {
       background-color: #ffe6cc !important;
+      color: #000 !important;
     }
+
     .practiced {
       background-color: #cceeff !important;
+      color: #000 !important;
     }
+
     .create {
       background-color: #ccffcc !important;
+      color: #000 !important;
     }
+
     .clear-button {
       background-color: #e74c3c;
       color: white;
@@ -78,6 +131,7 @@
   </style>
 </head>
 <body>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙 Dark Mode</button>  
   <h1>Embedded C Learning Progress Tracker</h1>
 
   <div id="topics-container"></div>
@@ -210,9 +264,9 @@
         li.innerHTML = `
           ${topic}
           <div class="progress-selector">
-            <div class="cell" onclick="setProgress('${topicId}', 1)">Studied</div>
-            <div class="cell" onclick="setProgress('${topicId}', 2)">Practiced</div>
-            <div class="cell" onclick="setProgress('${topicId}', 3)">Demonstrate</div>
+            <div class="cell" data-id="${topicId}" data-level="1" onclick="setProgress('${topicId}', 1)">Studied</div>
+            <div class="cell" data-id="${topicId}" data-level="2" onclick="setProgress('${topicId}', 2)">Practiced</div>
+            <div class="cell" data-id="${topicId}" data-level="3" onclick="setProgress('${topicId}', 3)">Create</div>
           </div>`;
         listEl.appendChild(li);
       });
@@ -222,33 +276,18 @@
     });
 
     function setProgress(id, level) {
-      const cells = document.querySelectorAll(`[onclick*="setProgress('${id}'"]`);
-      
-      // Ensure cells exist and are being targeted correctly
-      if (cells.length < 3) {
-        console.error("Couldn't find the cells for the topic ID:", id);
-        return;
-      }
+      const cells = document.querySelectorAll(`.cell[data-id='${id}']`);
+      if (!cells.length) return console.warn("Couldn't find the cells for the topic ID:", id);
 
-      // Remove previous progress classes
-      cells.forEach(cell => {
+      cells.forEach((cell, index) => {
         cell.classList.remove('studied', 'practiced', 'create');
+        if (index < level) {
+          if (index === 0) cell.classList.add('studied');
+          if (index === 1) cell.classList.add('practiced');
+          if (index === 2) cell.classList.add('create');
+        }
       });
-
-      // Add appropriate classes based on the level
-      if (level >= 1) cells[0].classList.add('studied');
-      if (level >= 2) cells[1].classList.add('practiced');
-      if (level >= 3) cells[2].classList.add('create');
-
-      // Save progress to localStorage
       localStorage.setItem(id, level);
-    }
-
-    function restoreProgress(id) {
-      const savedProgress = localStorage.getItem(id);
-      if (savedProgress) {
-        setProgress(id, parseInt(savedProgress));
-      }
     }
 
     function clearSection(section) {
@@ -256,20 +295,46 @@
       topics.forEach((_, index) => {
         const topicId = `${section}-${index}`;
         localStorage.removeItem(topicId);
-        const cells = document.querySelectorAll(`[onclick*="setProgress('${topicId}'"]`);
+        const cells = document.querySelectorAll(`.cell[data-id='${topicId}']`);
         cells.forEach(cell => {
           cell.classList.remove('studied', 'practiced', 'create');
         });
       });
     }
 
-    // Now restore progress after all topics are loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      const allTopicIds = Object.entries(sections).flatMap(([section, topics]) => 
-        topics.map((_, index) => `${section}-${index}`)
-      );
-      allTopicIds.forEach(restoreProgress);
-    });
+    function restoreProgress() {
+      Object.entries(sections).forEach(([section, topics]) => {
+        topics.forEach((_, index) => {
+          const topicId = `${section}-${index}`;
+          const saved = localStorage.getItem(topicId);
+          if (saved) setProgress(topicId, parseInt(saved));
+        });
+      });
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const isDark = root.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeButton(isDark);
+    }
+    
+    function restoreTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const isDark = savedTheme === 'dark';
+      if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+      }
+      updateThemeButton(isDark);
+    }
+    
+    function updateThemeButton(isDark) {
+      const btn = document.getElementById('themeToggle');
+      btn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+
+    restoreTheme();
+    restoreProgress();
   </script>
 </body>
 </html>
