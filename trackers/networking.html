@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Networking</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h2 {
+      background: #4b6cb7;
+      background: linear-gradient(to right, #4b6cb7, #182848);
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h3 {
+      margin-top: 20px;
+      color: #2c3e50;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .progress-selector {
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .cell {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      cursor: pointer;
+      background-color: white;
+      transition: background-color 0.3s;
+    }
+    .studied {
+      background-color: #ffe6cc !important;
+    }
+    .practiced {
+      background-color: #cceeff !important;
+    }
+    .create {
+      background-color: #ccffcc !important;
+    }
+    .clear-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Networking Learning Progress Tracker</h1>
+
+  <div id="topics-container"></div>
+
+  <script>
+    const sections = {
+        "Networking Fundamentals": [
+            "What is Networking?",
+            "Types of Networks (LAN, MAN, WAN, PAN, WLAN, CAN, SAN)",
+            "Network Topologies (Star, Bus, Ring, Mesh, Hybrid)",
+            "Network Devices (Router, Switch, Hub, Bridge, Modem, Access Point, Gateway)",
+            "Network Interface Card (NIC)",
+            "OSI Model (7 Layers)",
+            "TCP/IP Model",
+            "IPv4 Addressing and Classes",
+            "IPv6 Addressing and Notation",
+            "Subnetting and Supernetting",
+            "CIDR (Classless Inter-Domain Routing)",
+            "MAC Addressing",
+            "Public vs Private IP Addresses",
+            "NAT & PAT (Network Address Translation & Port Address Translation)",
+            "DHCP (Dynamic Host Configuration Protocol)",
+            "DNS (Domain Name System)",
+            "ARP & RARP (Address Resolution Protocols)",
+            "MTU (Maximum Transmission Unit)",
+            "VLAN (Virtual LAN)",
+            "MPLS (Multiprotocol Label Switching)",
+            "Ports and Port Numbers (Well-known Ports)"
+        ],
+        "Protocols": [
+            "TCP vs UDP",
+            "IP (Internet Protocol)",
+            "ICMP (Ping, Traceroute)",
+            "HTTP, HTTPS (Hypertext Transfer Protocol)",
+            "FTP, FTPS, SFTP",
+            "SSH (Secure Shell)",
+            "Telnet",
+            "SMTP, POP3, IMAP (Email Protocols)",
+            "SNMP (Simple Network Management Protocol)",
+            "TLS/SSL (Encryption Protocols)",
+            "WebSockets",
+            "NTP (Network Time Protocol)",
+            "BGP (Border Gateway Protocol)",
+            "IGRP, OSPF, EIGRP (Routing Protocols)"
+        ],
+        "Networking Tools and Commands": [
+            "ping",
+            "traceroute / tracert",
+            "ipconfig / ifconfig",
+            "netstat",
+            "nslookup / dig",
+            "nmap",
+            "tcpdump",
+            "Wireshark",
+            "netcat (nc)",
+            "curl & wget",
+            "telnet command",
+            "whois",
+            "arp command",
+            "route command",
+            "hostname and host"
+        ],
+        "Sockets Programming in Python": [
+            "Creating TCP Sockets",
+            "Creating UDP Sockets",
+            "Binding and Listening",
+            "Accepting Connections",
+            "Sending and Receiving Data",
+            "Closing Connections",
+            "Multithreaded Socket Servers",
+            "Broadcast and Multicast Sockets",
+            "Non-blocking and Asynchronous Sockets",
+            "Using `select`, `poll`, and `epoll`",
+            "Secure Sockets with `ssl` Module"
+        ],
+        "Network Security Concepts": [
+            "Firewall Configuration (Software & Hardware)",
+            "VPN (Virtual Private Network)",
+            "Proxy Servers (Forward/Reverse Proxy)",
+            "DMZ (Demilitarized Zone)",
+            "Port Forwarding",
+            "WPA2/WPA3 Wireless Security",
+            "Encryption and Decryption",
+            "Authentication, Authorization, Accounting (AAA)",
+            "IDS/IPS (Intrusion Detection/Prevention Systems)",
+            "DDoS Protection & Mitigation",
+            "Access Control Lists (ACL)",
+            "Zero Trust Networking",
+            "MAC Filtering",
+            "IP Spoofing, ARP Poisoning, Packet Sniffing"
+        ],
+        "Python Networking Libraries": [
+            "socket",
+            "socketserver",
+            "asyncio for networking",
+            "requests",
+            "http.client",
+            "urllib",
+            "ftplib",
+            "paramiko (SSH)",
+            "scapy (Packet crafting and sniffing)",
+            "pyshark (Wireshark wrapper)",
+            "dnspython (DNS querying)",
+            "twisted (Event-driven networking)",
+            "aiohttp",
+            "pyftpdlib (Custom FTP Server)",
+            "mitmproxy (Intercepting HTTP/S traffic)"
+        ],
+        "Network Automation & DevOps Tools": [
+            "Ansible for Network Automation",
+            "Python Netmiko, NAPALM, PyATS",
+            "REST APIs for network devices",
+            "Postman for API Testing",
+            "Cisco Packet Tracer / GNS3 / EVE-NG",
+            "Using YAML & JSON in configs",
+            "Netconf / RESTCONF protocols",
+            "Network Configuration Backup Scripts"
+        ],
+        "Practical Networking Projects": [
+            "Chat Application (TCP/UDP)",
+            "File Transfer App",
+            "Simple Web Server",
+            "Port Scanner",
+            "Network Packet Sniffer",
+            "IP Scanner / Subnet Scanner",
+            "Socket-based Remote Shell",
+            "HTTP Client with requests",
+            "Ping Monitoring System",
+            "Multiplayer Game Networking",
+            "DNS Resolver",
+            "Custom VPN using Sockets and Encryption"
+        ],
+        "Cloud & Network Integration": [
+            "Cloud Networking Basics (AWS, Azure, GCP)",
+            "VPC, Subnets, and Routing Tables",
+            "Security Groups and NACLs",
+            "Elastic IPs, NAT Gateways",
+            "Cloud Load Balancers",
+            "PrivateLink, Direct Connect",
+            "SDN (Software Defined Networking)",
+            "Edge Networking and CDNs",
+            "Serverless Networking Challenges"
+        ],
+        "Troubleshooting and Diagnostics": [
+            "Latency, Jitter, Packet Loss",
+            "Routing Loops and Blackholes",
+            "Throughput vs Bandwidth",
+            "Wi-Fi Interference",
+            "ISP Troubleshooting",
+            "DNS Resolution Failures",
+            "Firewall or Port Blocking Issues",
+            "Analyzing Logs and Packet Captures",
+            "Loopback and Localhost Testing",
+            "Trace Packet Path with tools"
+        ]
+    };
+
+    const container = document.getElementById('topics-container');
+
+    Object.entries(sections).forEach(([section, topics]) => {
+      const sectionEl = document.createElement('div');
+      sectionEl.innerHTML = `<h2>${section} <button class="clear-button" onclick="clearSection('${section}')">Clear All</button></h2>`;
+
+      const listEl = document.createElement('ul');
+
+      topics.forEach((topic, index) => {
+        const topicId = `${section}-${index}`;
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${topic}
+          <div class="progress-selector">
+            <div class="cell" onclick="setProgress('${topicId}', 1)">Studied</div>
+            <div class="cell" onclick="setProgress('${topicId}', 2)">Practiced</div>
+            <div class="cell" onclick="setProgress('${topicId}', 3)">Demonstrate</div>
+          </div>`;
+        listEl.appendChild(li);
+      });
+
+      sectionEl.appendChild(listEl);
+      container.appendChild(sectionEl);
+    });
+
+    function setProgress(id, level) {
+      const cells = document.querySelectorAll(`[onclick*="setProgress('${id}'"]`);
+      
+      // Ensure cells exist and are being targeted correctly
+      if (cells.length < 3) {
+        console.error("Couldn't find the cells for the topic ID:", id);
+        return;
+      }
+
+      // Remove previous progress classes
+      cells.forEach(cell => {
+        cell.classList.remove('studied', 'practiced', 'create');
+      });
+
+      // Add appropriate classes based on the level
+      if (level >= 1) cells[0].classList.add('studied');
+      if (level >= 2) cells[1].classList.add('practiced');
+      if (level >= 3) cells[2].classList.add('create');
+
+      // Save progress to localStorage
+      localStorage.setItem(id, level);
+    }
+
+    function restoreProgress(id) {
+      const savedProgress = localStorage.getItem(id);
+      if (savedProgress) {
+        setProgress(id, parseInt(savedProgress));
+      }
+    }
+
+    function clearSection(section) {
+      const topics = sections[section];
+      topics.forEach((_, index) => {
+        const topicId = `${section}-${index}`;
+        localStorage.removeItem(topicId);
+        const cells = document.querySelectorAll(`[onclick*="setProgress('${topicId}'"]`);
+        cells.forEach(cell => {
+          cell.classList.remove('studied', 'practiced', 'create');
+        });
+      });
+    }
+
+    // Now restore progress after all topics are loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      const allTopicIds = Object.entries(sections).flatMap(([section, topics]) => 
+        topics.map((_, index) => `${section}-${index}`)
+      );
+      allTopicIds.forEach(restoreProgress);
+    });
+  </script>
+</body>
+</html>

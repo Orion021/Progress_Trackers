@@ -84,67 +84,160 @@
 
   <script>
     const sections = {
-      Basics:[
-        "What is the Internet & How It Works",
-        "What is the Web?",
-        "How Websites Work (Client, Server, Hosting)",
-        "DNS & Domain Names",
-        "Web Browsers & How They Render Pages",
-        "What is HTTP & HTTPS",
-        "Basics of URLs",
-        "Frontend vs Backend",
-        "Web Dev Tools (VS Code, DevTools, Browsers)",
-      ],
-      Control_Flow: [
-        "HTML Structure",
-        "Headings & Paragraphs",
-        "Lists: Ordered & Unordered",
-        "Links",
-        "Images",
-        "Tables",
-        "Forms & Inputs",
-        "Semantic Tags",
-        "Media Elements: audio, video",
-        "Iframes",
-        "Meta Tags",
-        "Form Validation Attributes",
-        "Data Attributes",
-        "ARIA Roles & Accessibility",
-        "Canvas & SVG",
-        "SEO-Friendly Markup"
-      ],
-      CSS: [
-        "CSS Syntax",
-        "Selectors",
-        "Colors & Units",
-        "Box Model",
-        "Typography",
-        "Positioning",
-        "Flexbox",
-        "Grid",
-        "Media Queries",
-        "Animations & Transitions",
-        "Pseudo-classes & Pseudo-elements",
-        "Variables",
-        "Custom Fonts & Icons"
-      ],
-      JavaScript: [
-        "JS Basics: Syntax, Comments",
-        "Variables (let, const)",
-        "Data Types",
-        "Operators",
-        "Conditional Statements",
-        "Loops",
-        "Functions",
-        "Arrays",
-        "Objects",
-        "DOM Manipulation",
-        "Events",
-        "Timers (setTimeout/setInterval)",
-        "ES6 Features",
-        "APIs (Fetch)",
-        "JSON"
-      ]
+      "Basics of Python": [
+      "Introduction to Python",
+      "Python Syntax and Indentation",
+      "Variables and Data Types",
+      "Type Casting and Conversion",
+      "Operators",
+      "Comments and Docstrings"
+    ],
+    "Control Flow": [
+      "If, Else, Elif Statements",
+      "Nested Conditional Statements",
+      "Loops (For, While)",
+      "Loop Control (Break, Continue, Pass)",
+      "List Comprehensions",
+      "Error Handling"
+    ],
+    "Functions": [
+      "Function Definitions and Calls",
+      "Parameters and Return Values",
+      "Lambda Functions",
+      "Default Arguments",
+      "Variable Scope",
+      "Recursion",
+      "Built-in Functions",
+      "Decorators"
+    ],
+    "Data Structures": [
+      "Lists",
+      "Tuples",
+      "Sets",
+      "Dictionaries",
+      "Stacks and Queues",
+      "Linked Lists",
+      "collections Module (Deque, Counter, etc.)"
+    ],
+    "Object-Oriented Programming (OOP)": [
+      "Classes and Objects",
+      "Methods and Attributes",
+      "Inheritance",
+      "Polymorphism",
+      "Encapsulation",
+      "Abstraction",
+      "Static and Class Methods",
+      "Special Methods"
+    ],
+    "Working with Files": [
+      "Reading/Writing Files",
+      "CSV, JSON, XML Files",
+      "File Handling Methods",
+      "Context Managers",
+      "os Module for File Management"
+    ],
+    "Error and Exception Handling": [
+      "Common Exceptions",
+      "Custom Exceptions",
+      "Handling Multiple Exceptions",
+      "Raising Exceptions"
+    ],
+    "Modules and Packages": [
+      "Built-in Modules",
+      "Creating Modules and Packages",
+      "Importing Techniques",
+      "Virtual Environments",
+      "Managing Dependencies"
+    ],
+    "Advanced Python": [
+      "Iterators and Generators",
+      "Context Managers",
+      "Memory Management",
+      "Multithreading and Multiprocessing",
+      "Asynchronous Programming",
+      "Meta-programming",
+      "Closures and Scope",
+      "Decorators and Context Managers"
+    ],
+    "Libraries and Frameworks": [
+      "Flask and Django",
+      "BeautifulSoup and Selenium",
+      "NumPy, Pandas, Matplotlib",
+      "Scikit-Learn, TensorFlow, PyTorch",
+      "unittest, pytest",
+      "requests, asyncio",
+      "Tkinter, PyQt, Kivy"
+    ],
+    "Data Science with Python": [
+      "NumPy Arrays and Operations",
+      "Pandas DataFrames",
+      "Data Visualization",
+      "Data Cleaning",
+      "Statistical Analysis",
+      "ML Algorithms",
+      "Neural Networks"
+    ],
+    "Web Development with Python": [
+      "HTTP Protocol and Web Servers",
+      "REST APIs",
+      "Authentication",
+      "SQLAlchemy and Databases",
+      "WebSockets",
+      "Jinja2 Templates",
+      "Static and Dynamic Content"
+    ],
+    "Automation and Scripting": [
+      "Python Scripts",
+      "Web Scraping",
+      "Task Scheduling",
+      "API Interactions",
+      "Batch Processing"
+    ],
+    "DevOps and Cloud": [
+      "AWS, GCP, Azure with Python",
+      "Boto3, Terraform",
+      "CI/CD Tools",
+      "Docker and Kubernetes"
+    ],
+    "Testing and Debugging": [
+      "unittest and pytest",
+      "Mocking and Fixtures",
+      "Code Coverage",
+      "Debugging Tools",
+      "Performance Optimization",
+      "Refactoring"
+    ],
+    "Best Practices": [
+      "PEP 8 Guidelines",
+      "Type Hinting",
+      "Design Patterns",
+      "Pythonic Code",
+      "Documentation"
+    ],
+    "Networking": [
+      "Sockets and Communication",
+      "Client-Server Applications",
+      "REST API Handling",
+      "Web Scraping Automation",
+      "Network Tools"
+    ],
+    "Concurrency and Parallelism": [
+      "Multithreading",
+      "Multiprocessing",
+      "Asyncio and Event Loop"
+    ],
+    "Game Development": [
+      "Game Design Basics",
+      "PyGame Library",
+      "2D Games",
+      "Animations and Events"
+    ],
+    "Real World Python": [
+      "Deployment (PyInstaller, Docker)",
+      "Version Control",
+      "CI/CD Pipelines",
+      "Monitoring and Logging"
+    ]
     };
 
     const container = document.getElementById('topics-container');
@@ -163,7 +256,7 @@
           <div class="progress-selector">
             <div class="cell" onclick="setProgress('${topicId}', 1)">Studied</div>
             <div class="cell" onclick="setProgress('${topicId}', 2)">Practiced</div>
-            <div class="cell" onclick="setProgress('${topicId}', 3)">Create</div>
+            <div class="cell" onclick="setProgress('${topicId}', 3)">Demonstrate</div>
           </div>`;
         listEl.appendChild(li);
       });
